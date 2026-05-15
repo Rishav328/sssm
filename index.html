@@ -194,6 +194,29 @@
         </div>
     </div>
 
+     <audio controls style="display:none;" loop id="music">
+  <source src="loves.mp3">
+</audio>
+
+<script>
+  window.addEventListener("click", play);
+  
+  function play() { 
+    const audioElement = document.getElementById("music");
+    
+    // Set the volume to 50%
+    audioElement.volume = 0.5; 
+    
+    // Play the audio
+    audioElement.play();
+  }
+</script>
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+      <script>
+          swal("Kaisi ho!!","I made this cause tumhe bahut kuch bolna tha, and haa wo scratch card mein deep and intense emotions ya feeling h toh scratch karna apne wish pr and apni marzi se scratch kiya ho toh datna mat, i told u before, scratch meon thoda intense feelings h, baki k read kar lo filhal!!");
+          
+      </script>
+
     <script>
         // Store our data with an added 'isScratched' state tracking
         const wishesData = [
