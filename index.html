@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For You</title>
+    
+    <!-- Importing Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Importing Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #333;
+            /* Prevent pull-to-refresh on mobile */
+            overscroll-behavior-y: none; 
+            background-color: #fdf2f8; /* Fallback color */
+        }
+
+        /* Blurred Background Image */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('bg.png') no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(8px); /* The blur effect */
+            transform: scale(1.05); /* Scales slightly to hide the fuzzy blurred edges */
+            z-index: -2; /* Keeps it behind the hearts and content */
+        }
+
+        .handwriting {
+            font-family: 'Caveat', cursive;
+        }
+        
+        /* Floating hearts background */
+        .bg-heart {
+            position: fixed;
+            top: -10vh;
+            color: rgba(255, 182, 193, 0.4);
+            font-size: 2rem;
+            animation: floatup 10s linear infinite;
+            z-index: -1;
+            user-select: none;
+        }
+        @keyframes floatup {
+            0% { transform: translateY(110vh) scale(0.5) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5) rotate(360deg); opacity: 0; }
+        }
+
+        /* Modal Animations */
+        .modal-enter {
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        .modal-exit {
+            animation: popOut 0.3s ease-in forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8) translateY(20px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        @keyframes popOut {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0; }
+        }
+
+        /* Scratch Canvas inside Modal */
+        #scratch-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="%23fbbf24" stroke="%23b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>') 16 16, pointer;
+            transition: opacity 0.6s ease-out;
+            border-radius: 1.5rem; /* Matches Tailwind rounded-3xl */
+        }
+
+        /* Thumbnail Animations */
+        .gift-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .gift-card:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden selection:bg-pink-200 selection:text-pink-900">
+
+    <div class="bg-heart" style="left: 10%; animation-duration: 12s; animation-delay: 0s;">❤️</div>
+    <div class="bg-heart" style="left: 30%; animation-duration: 15s; animation-delay: 2s;">❤️</div>
+    <div class="bg-heart" style="left: 50%; animation-duration: 11s; animation-delay: 4s;">❤️</div>
+    <div class="bg-heart" style="left: 70%; animation-duration: 14s; animation-delay: 1s;">❤️</div>
+    <div class="bg-heart" style="left: 90%; animation-duration: 13s; animation-delay: 3s;">❤️</div>
+
+    <div class="max-w-3xl mx-auto px-4 py-12 relative z-10">
+        
+        <div class="bg-white/85 backdrop-blur-lg rounded-3xl shadow-2xl p-6 md:p-10 mb-8 border border-pink-200">
+            <h1 class="handwriting text-5xl text-pink-500 mb-8 text-center">To Liza...</h1>
+            
+            <div class="space-y-4 text-gray-700 leading-relaxed text-lg">
+                <h2 class="handwriting text-3xl text-pink-600 mt-2 mb-1">Just Wanted to Say...</h2>
+                <p>Hi, hope you are fine and sab acha hoga!</p>
+                <p>yk mujhe tumse kuch kehna tha, actually bahut se cheez kehni thi but abhi ke liye yeahi bolunga. I'm proud of you, and I'm happy to have you in my life.</p>
+                
+                <h2 class="handwriting text-3xl text-pink-600 mt-8 mb-1">I'm Here Through It All</h2>
+                <p>Ek reel dheka tha, usme ek ladki bol rahi thi when you are in your periods, generally some girl khud ko khosti hai on that, because of irritation, pain and mood swings (which is normal) - pain ka I can't do anything, but mood swings and irritation ko leke I can say tum apne ko kabhi kosna mat, I mean we used to talk alot, you shared alot with me, but jab thoda kum hua, I know you are still same Liza I know, it's just you are showing me your normal side, I know you still have some self doubts, need some validation, feels bad when you are not okay via health, I wanna say mein tumhari kisi baat ka bura nahi manta and I'm sorry I say taki tumhe kisi baat ka bura na lage mein tumhare pain mein aur pain nahi add karna chahata, I want you to stay happy always and I wanted to be with you, mujhe nahi pata mein kya kaise kar skta hoon for make you feel safe or happy, apni side batau toh tum hi ho jisse mein happy and safe feel karta hoon.</p>
+                
+                <h2 class="handwriting text-3xl text-pink-600 mt-8 mb-1">What You Mean to Me</h2>
+                <p>You are like a everything for me, jod tod ke, you said tera tabyeet thik nahi hai and I asked for you but you didn't replied how are you? Dost, I don't know how to say but when you are in pain or sad, I feel it too (not literally but mind stays in you) tere ko kuch ho gaya toh mein jee nahi paunga yaar (more I'll be like a emotion less machine).</p>
+                <p>You make me realised, ki kisi ka important hone kaisa hota hai, and don't reply it's okay, but I want tum khush raho and aaram se raho.</p>
+                
+                <h2 class="handwriting text-3xl text-pink-600 mt-8 mb-1">A World Without Fear</h2>
+                <p>Mujhe leke koi guilt mat rakha, I'll always forgive you, cause you are best friend, koi bhi fight ko dil mein mat lena and mein bhi tumari baaton ko jo hurt kare dil pr nahi leta zayada toh regret mat karna!</p>
+                <p>I'll never judge you, because I also wanna be world jahan tum bina kisi fear ke reh sako, people will come and people will go but I'll always wanna be with you to see you taki tum humesha khud ban ke reh sako!</p>
+                
+                <h2 class="handwriting text-3xl text-pink-600 mt-8 mb-1">Choosing You Every Day</h2>
+                <p>Tbh I really miss you, mujhe video call karne ka mann kar raha hai, but I don't want ki tum aur irritate ho because tum ghar mein ho.</p>
+                <p>Due to some issues, I'll not forget the days you were with me, chahe boring lage ya intrest hatte, I'm still with you and choose you cause I've made many mistakes in my pasts and present but choose you was not my mistake and I'm proud of myself to choose you as a friend, bf ya love, you are worth it.</p>
+                
+                <h2 class="handwriting text-3xl text-pink-600 mt-8 mb-1">My Safe Space</h2>
+                <p>You are in confusion because there are alot to do, just start one thing maybe goverment, maybe masters, maybe etc just start!</p>
+                <p>I miss you, yaar! Life mein tumhare samne hi vulnerable hua hoon and sab baat share and sahi baat batate mein safe feel karta hoon, you can have my everything, I've shared you wo bhi jo mein parents ko nahi bola na hi kisi friend ko, I've one bestie that's you!</p>
+                
+                <h2 class="handwriting text-3xl text-pink-600 mt-8 mb-1">Wishing I Was There</h2>
+                <p>I don't wanna irritate you, stay happy yaar, kaash mein tere paass hota literally, toh tera pura khayal rakhta, I wanna go outside with you (introvert hoke yeah bol raha hoon).</p>
+            </div>
+            
+            <div class="mt-8 text-right handwriting text-3xl text-pink-600">
+                With all my heart
+            </div>
+        </div>
+
+        <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded-r-lg mb-10 shadow-sm">
+            <div class="flex items-start">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-red-400 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-bold text-red-800 uppercase tracking-wider">Disclaimer</h3>
+                    <div class="mt-1 text-sm text-red-700">
+                        <p>Isme I have written what I feel for you deeply and intense way, so scratch on your own wish.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="handwriting text-4xl text-center text-gray-800 mb-2 mt-12 bg-white/70 backdrop-blur-md rounded-2xl py-2 inline-block px-8 mx-auto shadow-sm border border-pink-100">My Wishes For Us (Read disclaimer before scratching)</h2>
+        <p class="text-center text-gray-800 font-medium mb-8 text-sm bg-white/70 backdrop-blur-md rounded-full py-1 px-4 inline-block mx-auto mt-2 shadow-sm border border-pink-100">Tap a card to open it</p>
+        
+        <!-- Thumbnails Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6" id="thumbnails-container">
+            <!-- Thumbnails injected via JS -->
+        </div>
+
+    </div>
+
+    <!-- The Modal (Hidden by default) -->
+    <div id="scratch-modal-overlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+        
+        <!-- Modal Content Container -->
+        <div id="modal-card" class="relative w-full max-w-sm bg-white rounded-3xl shadow-2xl overflow-hidden hidden">
+            
+            <!-- Close Button -->
+            <button id="close-modal-btn" class="absolute top-3 right-3 z-30 bg-gray-100/80 hover:bg-gray-200 text-gray-600 rounded-full w-8 h-8 flex items-center justify-center transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+
+            <!-- Inner Content (GIF + Text) -->
+            <div class="relative w-full h-[400px] flex flex-col items-center justify-center p-6 text-center bg-gradient-to-b from-pink-50 to-white">
+                <img id="modal-gif" src="" alt="Cute GIF" class="h-32 object-contain mb-6 drop-shadow-md" />
+                <p id="modal-text" class="handwriting text-2xl text-pink-600 font-semibold leading-tight"></p>
+                <p id="modal-congrats" class="text-xs text-gray-400 mt-4 uppercase tracking-widest font-bold opacity-0 transition-opacity duration-500">Wish Revealed</p>
+            </div>
+
+            <!-- The Scratch Canvas (Injected Dynamically to ensure correct sizing) -->
+            <canvas id="scratch-canvas" class="rounded-3xl"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Store our data with an added 'isScratched' state tracking
+        const wishesData = [
+            {
+                text: "To hug you and cry for a minute",
+                gif: "1.gif",
+                isScratched: false
+            },
+            {
+                text: "World tour with you",
+                gif: "2.gif",
+                isScratched: false
+            },
+            {
+                text: "Sleep in your lap and cooking food for you",
+                gif: "3.gif",
+                isScratched: false
+            },
+            {
+                text: "To make you happy and marry you (from start, I never think short term)",
+                gif: "4.gif",
+                isScratched: false
+            },
+            {
+                text: "To make you always happy and make you feel special",
+                gif: "5.gif",
+                isScratched: false
+            },
+            {
+                text: "To take care of you when you are sick, tumhara pura khayal apne bacche jaisa rakhunga",
+                gif: "6.gif",
+                isScratched: false
+            },
+            {
+                text: "To work and conquer everything with you, to better with you emotionally, physically and spiritually",
+                gif: "7.gif",
+                isScratched: false
+            },
+            {
+                text: "Understand you and wanna make you feel loved and safe",
+                gif: "8.gif",
+                isScratched: false
+            }
+        ];
+
+        const thumbnailsContainer = document.getElementById('thumbnails-container');
+        const modalOverlay = document.getElementById('scratch-modal-overlay');
+        const modalCard = document.getElementById('modal-card');
+        const modalGif = document.getElementById('modal-gif');
+        const modalText = document.getElementById('modal-text');
+        const modalCongrats = document.getElementById('modal-congrats');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        let canvas = document.getElementById('scratch-canvas');
+        let ctx = null;
+
+        let currentActiveIndex = -1;
+        let isDrawing = false;
+
+        // Renders the grid of small gift cards on the main page
+        function renderThumbnails() {
+            thumbnailsContainer.innerHTML = '';
+            
+            wishesData.forEach((wish, index) => {
+                const thumb = document.createElement('div');
+                thumb.className = `gift-card cursor-pointer rounded-2xl p-4 flex flex-col items-center justify-center text-center shadow-md h-32 md:h-40 border-2 ${wish.isScratched ? 'bg-pink-50 border-pink-200' : 'bg-gradient-to-br from-teal-400 to-blue-500 border-transparent text-white'}`;
+                
+                if (wish.isScratched) {
+                    // Opened State
+                    thumb.innerHTML = `
+                        <img src="${wish.gif}" class="h-12 md:h-16 object-contain mb-2 opacity-80" />
+                        <span class="text-xs md:text-sm text-pink-600 font-bold">Opened 💖</span>
+                    `;
+                } else {
+                    // Locked State
+                    thumb.innerHTML = `
+                        <div class="text-3xl md:text-4xl mb-2">❤️</div>
+                        <span class="text-xs md:text-sm font-bold text-blue-50">Tap to Open</span>
+                    `;
+                }
+
+                thumb.addEventListener('click', () => openModal(index));
+                thumbnailsContainer.appendChild(thumb);
+            });
+        }
+
+        function openModal(index) {
+            currentActiveIndex = index;
+            const wish = wishesData[index];
+
+            // Set content
+            modalGif.src = wish.gif;
+            modalText.innerText = wish.text;
+            modalCongrats.style.opacity = '0';
+
+            // Show modal overlay
+            modalOverlay.style.display = 'flex';
+            modalCard.style.display = 'block';
+            
+            // Add pop-in animation
+            modalCard.classList.remove('modal-exit');
+            modalCard.classList.add('modal-enter');
+
+            // Reset or hide canvas based on scratched state
+            canvas.style.opacity = '1';
+            canvas.style.pointerEvents = 'auto';
+            canvas.style.display = 'block';
+
+            if (wish.isScratched) {
+                // If already opened, hide canvas immediately
+                canvas.style.display = 'none';
+                modalCongrats.style.opacity = '1';
+            } else {
+                // Wait a tiny bit for the modal animation to settle before sizing the canvas
+                setTimeout(() => {
+                    initScratchCanvas();
+                }, 100); 
+            }
+        }
+
+        function closeModal() {
+            modalCard.classList.remove('modal-enter');
+            modalCard.classList.add('modal-exit');
+            
+            // Wait for exit animation to finish
+            setTimeout(() => {
+                modalOverlay.style.display = 'none';
+                modalCard.style.display = 'none';
+                currentActiveIndex = -1;
+            }, 300);
+        }
+
+        function initScratchCanvas() {
+            const rect = modalCard.getBoundingClientRect();
+            
+            // Handle high DPI displays for crisper canvas
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            
+            ctx = canvas.getContext('2d', { willReadFrequently: true });
+            ctx.scale(dpr, dpr);
+            
+            canvas.style.width = `${rect.width}px`;
+            canvas.style.height = `${rect.height}px`;
+
+            // Draw Premium GPay Gradient Cover
+            const gradient = ctx.createLinearGradient(0, 0, rect.width, rect.height);
+            gradient.addColorStop(0, '#14b8a6'); // Teal
+            gradient.addColorStop(0.5, '#0ea5e9'); // Sky
+            gradient.addColorStop(1, '#3b82f6'); // Blue
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, rect.width, rect.height);
+
+            // Add diagonal shine
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(rect.width * 0.5, 0);
+            ctx.lineTo(rect.width, rect.height);
+            ctx.lineTo(rect.width * 0.5, rect.height);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.fill();
+
+            // Draw "Scratch Here" text
+            ctx.font = "bold 24px Inter";
+            ctx.fillStyle = "#ffffff";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("✨ Scratch to Reveal ✨", rect.width / 2, rect.height / 2);
+            
+            ctx.font = "14px Inter";
+            ctx.fillStyle = "rgba(255,255,255,0.8)";
+            ctx.fillText("Use your finger", rect.width / 2, (rect.height / 2) + 30);
+
+            // Set drawing mode to erase
+            ctx.globalCompositeOperation = 'destination-out';
+            isDrawing = false;
+        }
+
+        function getMousePos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+            return {
+                x: clientX - rect.left,
+                y: clientY - rect.top
+            };
+        }
+
+        function scratch(e) {
+            if (!isDrawing) return;
+            // CRITICAL: Prevent scrolling while scratching inside the modal
+            if(e.cancelable) e.preventDefault(); 
+            
+            const pos = getMousePos(e);
+            
+            ctx.beginPath();
+            ctx.arc(pos.x, pos.y, 40, 0, Math.PI * 2); // Big brush size
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = 'rgba(0,0,0,1)';
+            ctx.fill();
+
+            checkReveal();
+        }
+
+        function checkReveal() {
+            // Throttle checks
+            if (Math.random() > 0.1) return;
+
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixels = imageData.data;
+            let transparentPixels = 0;
+
+            for (let i = 3; i < pixels.length; i += 16) {
+                if (pixels[i] < 128) transparentPixels++;
+            }
+
+            const totalPixelsChecked = pixels.length / 16;
+            const percentScratched = (transparentPixels / totalPixelsChecked) * 100;
+
+            if (percentScratched > 45) {
+                revealCard();
+            }
+        }
+
+        function revealCard() {
+            // Stop drawing
+            isDrawing = false;
+            
+            // Mark data as scratched
+            if(currentActiveIndex > -1) {
+                wishesData[currentActiveIndex].isScratched = true;
+                renderThumbnails(); // Update main page background
+            }
+
+            // Animate canvas away
+            canvas.style.opacity = '0';
+            canvas.style.pointerEvents = 'none';
+            modalCongrats.style.opacity = '1';
+
+            // Add a little celebratory bump to the card
+            modalCard.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                modalCard.style.transform = 'scale(1)';
+            }, 200);
+
+            setTimeout(() => {
+                canvas.style.display = 'none';
+            }, 600);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderThumbnails();
+
+            // Close button logic
+            closeModalBtn.addEventListener('click', closeModal);
+            
+            // Close if clicking outside the card
+            modalOverlay.addEventListener('click', (e) => {
+                if(e.target === modalOverlay) closeModal();
+            });
+
+            // Canvas Interaction Listeners
+            canvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
+            canvas.addEventListener('mousemove', scratch);
+            window.addEventListener('mouseup', () => { isDrawing = false; });
+
+            // Touch support (with passive: false so we can use e.preventDefault)
+            canvas.addEventListener('touchstart', (e) => { 
+                isDrawing = true; 
+                scratch(e); 
+            }, { passive: false });
+            
+            canvas.addEventListener('touchmove', scratch, { passive: false });
+            
+            window.addEventListener('touchend', () => { isDrawing = false; });
+        });
+    </script>
+</body>
+</html>
